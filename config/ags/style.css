@@ -1,0 +1,186 @@
+/* AGS — preview-new theme (warm-dark + pastel red, glass panels)
+ * The variables here are kept in sync with preview-new/src/App.css. */
+
+@define-color bg          #0B0908;
+@define-color surface     #14110F;
+@define-color panel       #1A1614;
+@define-color elevated    #211C19;
+@define-color border      #2A2521;
+@define-color border-hot  #3D3531;
+@define-color text        #EDE6DC;
+@define-color text-mid    #A8A096;
+@define-color text-dim    #6B6359;
+@define-color accent      #F87171;
+@define-color accent-hot  #FCA5A5;
+@define-color accent-dim  #B85C5C;
+@define-color ok          #86EFAC;
+@define-color warn        #FCD34D;
+@define-color danger      #FB7185;
+
+* {
+    font-family: "Victor Mono", "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: @text-mid;
+    border: none;
+    transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+window { background: transparent; }
+
+/* ── Glass panel base ─────────────────────────────────────────────────── */
+.glass {
+    background: rgba(20, 17, 15, 0.92);
+    border: 1px solid @border;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    padding: 12px;
+}
+
+.glass-strong {
+    background: rgba(11, 9, 8, 0.95);
+    border: 1px solid @border;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+.section-label {
+    color: @text-dim;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    margin: 4px 4px 6px 6px;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────────── */
+.sidebar {
+    margin: 8px 0 8px 8px;
+    min-width: 220px;
+}
+
+.sidebar .nav-item {
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: @text-mid;
+}
+
+.sidebar .nav-item:hover {
+    color: @accent-hot;
+    background: rgba(248, 113, 113, 0.05);
+}
+
+.sidebar .nav-item.active {
+    color: @accent;
+    background: rgba(248, 113, 113, 0.12);
+    border-left: 2px solid @accent;
+    box-shadow: 0 0 12px rgba(248, 113, 113, 0.30);
+}
+
+.sidebar .service-row {
+    padding: 4px 8px;
+    color: @text-dim;
+    font-size: 10px;
+}
+
+.sidebar .ok-dot {
+    background: @ok;
+    border-radius: 999px;
+    min-width: 6px;
+    min-height: 6px;
+    box-shadow: 0 0 6px rgba(134, 239, 172, 0.7);
+}
+
+/* ── Right panel ──────────────────────────────────────────────────────── */
+.right-panel {
+    margin: 8px 8px 8px 0;
+    min-width: 320px;
+}
+
+.quote {
+    font-family: "Noto Sans Devanagari", serif;
+    color: @text;
+    font-size: 17px;
+}
+.quote-en {
+    color: @text-dim;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    margin-top: 2px;
+}
+
+.slider-track {
+    background: @border;
+    border-radius: 999px;
+    min-height: 3px;
+}
+.slider-fill { background: @accent; border-radius: 999px; }
+
+.btn {
+    background: transparent;
+    border: 1px solid @border;
+    border-radius: 6px;
+    padding: 5px 10px;
+    color: @text-mid;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+}
+.btn:hover {
+    color: @accent;
+    border-color: @accent;
+    box-shadow: 0 0 10px rgba(248, 113, 113, 0.45);
+}
+.btn.danger:hover {
+    color: @danger;
+    border-color: @danger;
+}
+.btn.muted {
+    color: @danger;
+    border-color: rgba(251, 113, 133, 0.4);
+    background: rgba(251, 113, 133, 0.05);
+}
+
+.toggle-on  { background: @accent; box-shadow: 0 0 8px rgba(248, 113, 113, 0.75); }
+.toggle-off { background: @border; }
+
+.perf-row { font-size: 10px; }
+.perf-bar { background: @bg; border-radius: 999px; min-height: 3px; }
+.perf-fill { background: @accent; border-radius: 999px; }
+.perf-fill.warn { background: @danger; }
+
+.kv {
+    border: 1px solid @border;
+    border-radius: 6px;
+    padding: 5px 8px;
+}
+.kv-label { color: @text-dim; font-size: 8px; letter-spacing: 0.2em; }
+.kv-value { color: @text; font-size: 10px; }
+
+/* ── Mission timeline (bottom strip) ──────────────────────────────────── */
+.mission-strip {
+    margin: 0 8px 8px 8px;
+}
+
+.tracker-label { color: @text-mid; font-size: 10px; letter-spacing: 0.1em; }
+.tracker-value { color: @text; font-size: 10px; font-variant-numeric: tabular-nums; }
+
+.player-title { color: @text; font-size: 11px; }
+.player-meta  { color: @text-dim; font-size: 9px; }
+.player-btn {
+    color: @text-mid;
+    background: transparent;
+    border: none;
+    padding: 4px 6px;
+}
+.player-btn:hover { color: @text; }
+.player-play {
+    color: @accent;
+    border: 1px solid @accent;
+    border-radius: 999px;
+    min-width: 26px;
+    min-height: 26px;
+    box-shadow: 0 0 10px rgba(248, 113, 113, 0.45);
+}
+
+.notif-row { padding: 4px 6px; border-radius: 4px; font-size: 10px; }
+.notif-row:hover { background: rgba(42, 37, 33, 0.4); }
+.notif-app  { color: @text; }
+.notif-time { color: @text-dim; }
+.notif-text { color: @text-mid; }

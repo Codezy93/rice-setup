@@ -1,0 +1,157 @@
+/* waybar — preview-new TopBar styling
+ * Palette: warm near-black + pastel red                                     */
+
+@define-color bg          #0B0908;
+@define-color surface     #14110F;
+@define-color panel       #1A1614;
+@define-color elevated    #211C19;
+@define-color border      #2A2521;
+@define-color text        #EDE6DC;
+@define-color text-mid    #A8A096;
+@define-color text-dim    #6B6359;
+@define-color accent      #F87171;
+@define-color accent-hot  #FCA5A5;
+@define-color ok          #86EFAC;
+@define-color warn        #FCD34D;
+@define-color danger      #FB7185;
+
+* {
+    font-family: "Victor Mono", "JetBrains Mono", monospace;
+    font-size: 12px;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background: rgba(20, 17, 15, 0.92);
+    color: @text-mid;
+    border-bottom: 1px solid @border;
+}
+
+/* All modules — base padding */
+#custom-logo,
+#window,
+#workspaces button,
+#tray,
+#pulseaudio,
+#network,
+#battery,
+#custom-user,
+#clock {
+    padding: 0 10px;
+    margin: 4px 2px;
+    color: @text-mid;
+    background: transparent;
+    border-radius: 6px;
+    transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+/* ---- LEFT ---- */
+#custom-logo {
+    color: @accent;
+    font-size: 14px;
+    padding: 0 8px 0 12px;
+    margin-left: 6px;
+}
+
+#window {
+    color: @text;
+    padding-left: 4px;
+}
+
+window#waybar.empty #window {
+    background: transparent;
+    color: @text-dim;
+}
+
+/* ---- CENTER WORKSPACES ---- */
+#workspaces {
+    margin: 4px 0;
+}
+
+#workspaces button {
+    padding: 0 9px;
+    color: @text-dim;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    border-radius: 5px;
+    margin: 0 1px;
+}
+
+#workspaces button:hover {
+    color: @accent-hot;
+    background: rgba(248, 113, 113, 0.08);
+    box-shadow: none;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    color: @accent;
+    background: rgba(248, 113, 113, 0.10);
+    box-shadow: 0 0 8px rgba(248, 113, 113, 0.45);
+}
+
+#workspaces button.urgent {
+    color: @danger;
+    background: rgba(251, 113, 133, 0.12);
+}
+
+#workspaces button.empty {
+    color: @text-dim;
+    opacity: 0.55;
+}
+
+/* ---- RIGHT ---- */
+#tray {
+    padding: 0 6px;
+}
+
+#tray > .passive { -gtk-icon-effect: dim; }
+#tray > .needs-attention { -gtk-icon-effect: highlight; color: @danger; }
+
+#pulseaudio,
+#network,
+#battery {
+    color: @text-mid;
+}
+
+#pulseaudio:hover,
+#network:hover,
+#battery:hover {
+    color: @text;
+    background: rgba(248, 113, 113, 0.05);
+}
+
+#pulseaudio.muted { color: @text-dim; }
+#network.disconnected { color: @text-dim; }
+#battery.warning { color: @warn; }
+#battery.critical { color: @danger; }
+#battery.charging { color: @ok; }
+
+#custom-user {
+    color: @text-mid;
+    font-size: 11px;
+}
+
+#clock {
+    color: @text;
+    background: @bg;
+    border: 1px solid @border;
+    padding: 0 12px;
+    margin-right: 8px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
+}
+
+#clock:hover {
+    border-color: @accent;
+    box-shadow: 0 0 8px rgba(248, 113, 113, 0.45);
+}
+
+tooltip {
+    background: rgba(11, 9, 8, 0.95);
+    border: 1px solid @border;
+    border-radius: 8px;
+    color: @text;
+}

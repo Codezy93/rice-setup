@@ -1,0 +1,111 @@
+// waybar — modeled on preview-new TopBar (topbar.jsx)
+// Layout: [logo · focused window]   [HQ STRIKE GRID …]   [user · clock · tray]
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 4,
+    "margin-top": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "reload_style_on_change": true,
+
+    "modules-left": [
+        "custom/logo",
+        "hyprland/window"
+    ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        "tray",
+        "pulseaudio",
+        "network",
+        "battery",
+        "custom/user",
+        "clock"
+    ],
+
+    "custom/logo": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "fuzzel"
+    },
+
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 50,
+        "separate-outputs": true,
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "Firefox — $1",
+            "(.*) - Visual Studio Code": "Code — $1",
+            "(.*) - kitty": "kitty — $1"
+        }
+    },
+
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "all-outputs": true,
+        "on-click": "activate",
+        "sort-by-number": true,
+        "persistent-workspaces": {
+            "*": ["HQ", "STRIKE", "GRID", "COMMS", "ARCHIVE", "FORGE", "OFFLOAD", "RANGE", "DOSSIER", "GHOST"]
+        }
+    },
+
+    "tray": {
+        "icon-size": 14,
+        "spacing": 8
+    },
+
+    "pulseaudio": {
+        "format": "{icon}  {volume}%",
+        "format-muted": "  muted",
+        "format-icons": {
+            "default": ["", "", ""],
+            "headphone": "",
+            "headset": ""
+        },
+        "on-click": "pavucontrol",
+        "scroll-step": 5
+    },
+
+    "network": {
+        "format-wifi": "  {essid}",
+        "format-ethernet": "  {ifname}",
+        "format-disconnected": "  off",
+        "tooltip-format": "{ifname} · {ipaddr}/{cidr}\n↑ {bandwidthUpBytes}  ↓ {bandwidthDownBytes}",
+        "on-click": "nm-connection-editor"
+    },
+
+    "battery": {
+        "format": "{icon}  {capacity}%",
+        "format-charging": "  {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "states": {
+            "warning": 25,
+            "critical": 10
+        }
+    },
+
+    "custom/user": {
+        "format": "Viraj Paradkar",
+        "tooltip": false
+    },
+
+    "clock": {
+        "format": "{:%H:%M:%S}",
+        "format-alt": "{:%a · %b %d}",
+        "interval": 1,
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "weeks-pos": "right",
+            "format": {
+                "months":  "<span color='#FCA5A5'><b>{}</b></span>",
+                "weekdays":"<span color='#A8A096'>{}</span>",
+                "today":   "<span color='#F87171'><b>{}</b></span>"
+            }
+        }
+    }
+}
