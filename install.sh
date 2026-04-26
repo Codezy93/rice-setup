@@ -94,5 +94,3 @@ mkdir -p "$(dirname "$LOG_FILE")"
     log_ok "════════════════════════════════════════════"
 
 } 2>&1 | tee -a "$LOG_FILE"
-
-echo "Install - Spotify, Localsend, Discord"
