@@ -1,7 +1,7 @@
 // RightPanel — system controls + status (mirrors RightPanel.jsx)
 
 import { App, Astal, Gtk } from "astal/gtk3"
-import { Variable, bind } from "astal"
+import { Variable, bind, exec } from "astal"
 import Network from "gi://AstalNetwork"
 import Bluetooth from "gi://AstalBluetooth"
 
@@ -28,7 +28,7 @@ function Slider({ icon, value, onChange }: {
         <slider
             hexpand
             value={value / 100}
-            onDragged={({ value }) => onChange(Math.round(value * 100))}
+            onDragged={self => onChange(Math.round(self.value * 100))}
         />
         <label label={`${value}`} css="min-width: 24px;" halign={Gtk.Align.END} />
     </box>
@@ -98,30 +98,31 @@ function ConnectionRow({ icon, label, status, on }: {
 }
 
 function Connections() {
-    const net = Network.get_default()
-    const bt  = Bluetooth.get_default()
-
+    const net  = Network.get_default()
+    const bt   = Bluetooth.get_default()
     const wifi = net?.wifi
-    const wifiStatus = wifi
-        ? bind(wifi, "ssid").as(s => s ?? "Disconnected")
-        : Variable("Disconnected")()
-    const wifiOn = wifi ? bind(wifi, "enabled") : Variable(false)()
 
-    const btOn = bt ? bind(bt, "isPowered") : Variable(false)()
-
-    return <box vertical className="glass" spacing={4}>
-        {wifiStatus.as(s => <ConnectionRow
+    const wifiRow = wifi
+        ? bind(wifi, "ssid").as(s => <ConnectionRow
             icon="network-wireless-symbolic"
             label="Wi-Fi"
-            status={s}
-            on={true}
-        />)}
-        {btOn.as(on => <ConnectionRow
+            status={s ?? "Disconnected"}
+            on={!!s}
+        />)
+        : <ConnectionRow icon="network-wireless-symbolic" label="Wi-Fi" status="Unavailable" on={false} />
+
+    const btRow = bt
+        ? bind(bt, "isPowered").as(on => <ConnectionRow
             icon="bluetooth-symbolic"
             label="Bluetooth"
             status={on ? "On" : "Off"}
             on={on}
-        />)}
+        />)
+        : <ConnectionRow icon="bluetooth-symbolic" label="Bluetooth" status="Unavailable" on={false} />
+
+    return <box vertical className="glass" spacing={4}>
+        {wifiRow}
+        {btRow}
     </box>
 }
 
@@ -142,11 +143,11 @@ function StatusGrid() {
         <box homogeneous spacing={6}><Cell {...cells[0]} /><Cell {...cells[1]} /></box>
         <box homogeneous spacing={6}><Cell {...cells[2]} /><Cell {...cells[3]} /></box>
         <box homogeneous spacing={4}>
-            <button className="btn"        onClicked={() => Astal.exec("hyprlock")}><label label="LOCK"  /></button>
-            <button className="btn"        onClicked={() => Astal.exec("systemctl suspend")}><label label="SLEEP" /></button>
-            <button className="btn"        onClicked={() => Astal.exec("grim -g \"$(slurp)\" - | wl-copy")}><label label="SNAP" /></button>
+            <button className="btn"        onClicked={() => exec("hyprlock")}><label label="LOCK"  /></button>
+            <button className="btn"        onClicked={() => exec(["systemctl", "suspend"])}><label label="SLEEP" /></button>
+            <button className="btn"        onClicked={() => exec(["sh", "-c", 'grim -g "$(slurp)" - | wl-copy'])}><label label="SNAP" /></button>
             <button className="btn"><label label="PLANE" /></button>
-            <button className="btn danger" onClicked={() => Astal.exec("systemctl poweroff")}><label label="PWR" /></button>
+            <button className="btn danger" onClicked={() => exec(["systemctl", "poweroff"])}><label label="PWR" /></button>
         </box>
     </box>
 }

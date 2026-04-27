@@ -51,8 +51,6 @@ apt_install \
 apt_install mako-notifier 2>/dev/null || apt_install mako 2>/dev/null \
     || log_warn "mako notification daemon not found in apt — may be installed via Nix later"
 
-# rofi-wayland (launcher)
-apt_install rofi-wayland 2>/dev/null \
-    || log_warn "rofi-wayland not in apt repos — consider installing via Nix"
+# Launcher (fuzzel) is installed in 03-wayland-desktop.sh.
 
 log_ok "Audio and Wayland utilities ready."

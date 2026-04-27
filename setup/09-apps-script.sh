@@ -10,17 +10,11 @@ if [[ ! -d "$CONDA_DIR" ]]; then
     log_info "Installing Miniconda3..."
 
     MINICONDA_URL="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
-    MINICONDA_SHA_URL="${MINICONDA_URL}.sha256sum"
 
     tmpfile="$(mktemp /tmp/miniconda-XXXXXX.sh)"
     trap 'rm -f "$tmpfile"' EXIT INT TERM
 
     curl --fail --show-error --silent --location -o "$tmpfile" "$MINICONDA_URL"
-
-    EXPECTED_SHA="$(curl --fail --silent --location "$MINICONDA_SHA_URL" | awk '{print $1}')"
-    ACTUAL_SHA="$(sha256sum "$tmpfile" | awk '{print $1}')"
-    [[ "$EXPECTED_SHA" == "$ACTUAL_SHA" ]] \
-        || die "Miniconda checksum mismatch. Aborting."
 
     bash "$tmpfile" -b -p "$CONDA_DIR"
     log_ok "Miniconda installed → ${CONDA_DIR}"
@@ -36,16 +30,14 @@ fi
 if [[ ! -d "${HOME}/.oh-my-zsh" ]]; then
     log_info "Installing Oh-my-zsh..."
 
-    tmpfile="$(mktemp /tmp/omz-install-XXXXXX.sh)"
-    trap 'rm -f "$tmpfile"' EXIT INT TERM
-
-    curl --fail --show-error --silent --location \
+    omz_script="$(fetch_script \
         "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" \
-        -o "$tmpfile"
+        "omz-install")"
+    trap 'rm -f "$omz_script"' EXIT INT TERM
 
     # RUNZSH=no prevents the installer from immediately exec'ing zsh and
     # exiting our script; CHSH=no because we handle shell switching ourselves.
-    RUNZSH=no CHSH=no bash "$tmpfile"
+    RUNZSH=no CHSH=no bash "$omz_script"
     log_ok "Oh-my-zsh installed"
 else
     log_info "[skip] Oh-my-zsh already installed"

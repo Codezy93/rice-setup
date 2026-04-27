@@ -47,7 +47,8 @@
         "format": "{name}",
         "all-outputs": true,
         "on-click": "activate",
-        "sort-by-number": true,
+        // Named workspaces — keep declaration order (sort-by-number would break it)
+        "sort-by-name": false,
         "persistent-workspaces": {
             "*": ["HQ", "STRIKE", "GRID", "COMMS", "ARCHIVE", "FORGE", "OFFLOAD", "RANGE", "DOSSIER", "GHOST"]
         }

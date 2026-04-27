@@ -30,6 +30,9 @@ deploy "${HYPR_SRC}/hypridle.conf"  "${HYPR_DEST}/hypridle.conf"
 # ── Kitty ─────────────────────────────────────────────────────────────────────
 deploy "${REPO_DIR}/config/kitty/kitty.conf" "${HOME}/.config/kitty/kitty.conf"
 
+# ── Fuzzel ────────────────────────────────────────────────────────────────────
+deploy "${REPO_DIR}/config/fuzzel/fuzzel.ini" "${HOME}/.config/fuzzel/fuzzel.ini"
+
 # ── Waybar ────────────────────────────────────────────────────────────────────
 WAYBAR_SRC="${REPO_DIR}/config/waybar"
 WAYBAR_DEST="${HOME}/.config/waybar"

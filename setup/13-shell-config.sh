@@ -47,70 +47,15 @@ if ! grep -q '\.local/bin' "${ZSHRC}" 2>/dev/null; then
 fi
 
 
-# ── Kitty config stub ─────────────────────────────────────────────────────────
-KITTY_DIR="${HOME}/.config/kitty"
-mkdir -p "$KITTY_DIR"
-
-if [[ ! -f "${KITTY_DIR}/kitty.conf" ]]; then
-    cat > "${KITTY_DIR}/kitty.conf" <<'EOF'
-# Kitty terminal configuration
-font_family      JetBrainsMono Nerd Font
-bold_font        auto
-italic_font      auto
-bold_italic_font auto
-font_size        12.0
-
-# 144Hz-friendly cursor blink
-cursor_blink_interval     0.5
-cursor_stop_blinking_after 15.0
-
-# Color scheme (project dark palette)
-background            #0B0F14
-foreground            #E6EDF3
-selection_background  #3A8DFF33
-selection_foreground  #E6EDF3
-
-color0  #263241
-color1  #EF4444
-color2  #22C55E
-color3  #F59E0B
-color4  #3A8DFF
-color5  #a78bfa
-color6  #22D3EE
-color7  #E6EDF3
-color8  #6B7785
-color9  #EF4444
-color10 #22C55E
-color11 #F59E0B
-color12 #3A8DFF
-color13 #a78bfa
-color14 #22D3EE
-color15 #E6EDF3
-
-# Window
-window_padding_width    8
-hide_window_decorations yes
-background_opacity      0.92
-
-# Performance
-sync_to_monitor yes
-repaint_delay   4
-input_delay     1
-EOF
-    log_ok "Kitty config written"
-else
-    log_info "[skip] kitty.conf already exists"
-fi
+# Kitty config is deployed by 14-dotfiles.sh (config/kitty/kitty.conf).
 
 # ── Starship prompt ───────────────────────────────────────────────────────────
 if ! cmd_exists starship; then
     log_info "Installing Starship prompt..."
-    tmpfile="$(mktemp /tmp/starship-install-XXXXXX.sh)"
-    trap 'rm -f "$tmpfile"' EXIT INT TERM
-    curl --fail --show-error --silent --location \
-        "https://starship.rs/install.sh" -o "$tmpfile"
+    starship_script="$(fetch_script "https://starship.rs/install.sh" "starship-install")"
+    trap 'rm -f "$starship_script"' EXIT INT TERM
     # Install to ~/.local/bin (no sudo needed, already in PATH)
-    sh "$tmpfile" --yes --bin-dir "${HOME}/.local/bin"
+    sh "$starship_script" --yes --bin-dir "${HOME}/.local/bin"
     log_ok "Starship installed → ${HOME}/.local/bin/starship"
 else
     log_info "[skip] starship already installed"

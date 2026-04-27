@@ -41,7 +41,6 @@ readonly MODULES=(
     "07-apps-flatpak"
     "08-apps-deb"
     "09-apps-script"
-    "10-apps-appimage"
     "11-nodejs"
     "12-ags"
     "13-shell-config"

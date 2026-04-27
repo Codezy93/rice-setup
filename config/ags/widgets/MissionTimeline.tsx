@@ -51,22 +51,13 @@ function ProgressTracker() {
 }
 
 // ── Music player (MPRIS) ────────────────────────────────────────────────
-function MusicPlayer() {
-    const mpris  = Mpris.get_default()
-    const player = mpris.get_players()[0]
-
-    if (!player) {
-        return <box className="glass" hexpand>
-            <label label="No media" hexpand halign={Gtk.Align.CENTER} />
-        </box>
-    }
-
+function PlayerView({ player }: { player: Mpris.Player }) {
     return <box vertical className="glass" hexpand spacing={6}>
         <box spacing={8}>
             <icon icon="audio-x-generic-symbolic" />
             <box vertical hexpand>
-                <label className="player-title" label={player.title || "—"}  halign={Gtk.Align.START} truncate />
-                <label className="player-meta"  label={player.artist || "—"} halign={Gtk.Align.START} truncate />
+                <label className="player-title" label={bind(player, "title").as(t => t || "—")} halign={Gtk.Align.START} truncate />
+                <label className="player-meta"  label={bind(player, "artist").as(a => a || "—")} halign={Gtk.Align.START} truncate />
             </box>
         </box>
         <box hexpand vexpand />
@@ -81,6 +72,20 @@ function MusicPlayer() {
             <button className="player-btn" onClicked={() => player.next()}><icon icon="media-skip-forward-symbolic" /></button>
         </box>
     </box>
+}
+
+function MusicPlayer() {
+    const mpris = Mpris.get_default()
+
+    return bind(mpris, "players").as(players => {
+        const player = players[0]
+        if (!player) {
+            return <box className="glass" hexpand>
+                <label label="No media" hexpand halign={Gtk.Align.CENTER} />
+            </box>
+        }
+        return <PlayerView player={player} />
+    }) as unknown as JSX.Element
 }
 
 // ── Notifications (placeholder feed; AstalNotifd integration optional) ──

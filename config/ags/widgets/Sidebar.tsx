@@ -48,7 +48,6 @@ const SERVICES = [
 function NavRow(it: NavItem) {
     return <button
         className={`nav-item ${it.active ? "active" : ""}`}
-        cursor="pointer"
     >
         <box spacing={8}>
             <icon icon={it.icon} />

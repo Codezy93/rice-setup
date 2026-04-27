@@ -70,6 +70,9 @@ apt_install \
     fonts-noto \
     fonts-noto-cjk \
     fonts-noto-color-emoji \
+    fonts-victor-mono \
+    fonts-jetbrains-mono \
+    fonts-font-awesome \
     pciutils \
     lsb-release \
     sudo

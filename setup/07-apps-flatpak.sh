@@ -18,10 +18,7 @@ fi
 # ── Flatpak apps ──────────────────────────────────────────────────────────────
 declare -A FLATPAK_APPS=(
     ["app.zen_browser.zen"]="Zen Browser"
-    ["com.google.Chrome"]="Google Chrome"
-    ["com.spotify.Client"]="Spotify"
     ["md.obsidian.Obsidian"]="Obsidian"
-    ["org.localsend.localsend_app"]="LocalSend"
     ["io.podman_desktop.PodmanDesktop"]="Podman Desktop"
 )
 

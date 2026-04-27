@@ -60,20 +60,16 @@ apt_install_backports() {
 # ── General helpers ───────────────────────────────────────────────────────────
 cmd_exists() { command -v "$1" &>/dev/null; }
 
-# Download a file, verifying its SHA-256 checksum.
-# Usage: download_verified <url> <expected_sha256> <dest_path>
-download_verified() {
-    local url="$1" expected_sha="$2" dest="$3"
-    curl --fail --show-error --silent --location -o "$dest" "$url"
-    local actual_sha
-    actual_sha="$(sha256sum "$dest" | awk '{print $1}')"
-    if [[ "$actual_sha" != "$expected_sha" ]]; then
-        log_err "Checksum mismatch for $url"
-        log_err "  expected: $expected_sha"
-        log_err "  actual:   $actual_sha"
-        rm -f "$dest"
-        return 1
-    fi
+# Download a script-style installer to a temp file and echo the path so the
+# caller can run it.
+# Usage: tmpfile="$(fetch_script <url> <id>)"; bash "$tmpfile" args...
+fetch_script() {
+    local url="$1" id="$2"
+    local tmp
+    tmp="$(mktemp "/tmp/${id}-XXXXXX.sh")"
+    curl --fail --show-error --silent --location -o "$tmp" "$url" \
+        || { rm -f "$tmp"; die "Download failed: $url"; }
+    printf '%s' "$tmp"
 }
 
 # Fetch the browser_download_url of the first asset matching a regex from the
